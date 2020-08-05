@@ -247,10 +247,14 @@ if __name__ == '__main__':
     # Can work with any model, but it assumes that the model has a
     # feature method, and a classifier method,
     # as in the VGG models in torchvision.
-    model = models.resnet50(pretrained=True)
-    grad_cam = GradCam(model=model, feature_module=model.layer4, \
-                       target_layer_names=["2"], use_cuda=args.use_cuda)
-
+    model = models.vgg16(pretrained=True)
+    
+    grad_cam = GradCam(model=model, 
+                       feature_module=model.features,
+                       target_layer_names=["30"], 
+                       use_cuda=args.use_cuda,
+                      )
+    
     img = cv2.imread(args.image_path, 1)
     img = np.float32(cv2.resize(img, (224, 224))) / 255
     input = preprocess_image(img)
